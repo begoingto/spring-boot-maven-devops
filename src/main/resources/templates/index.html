@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master}"
+>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+<main class="px-3 container"  layout:fragment="main-content">
+    <!--  Welcome to start  -->
+    <div th:replace="~{fragments/welcome}"></div>
+    <!--  End welcome  -->
+
+    <!--  Card  -->
+    <div class="album py-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+
+                    <div class="col" th:each="article : ${articles}" th:object="${article}">
+                        <div
+                                th:replace="~{fragments/card::readonly(*{uuid},*{title},*{thumbnail},*{author},*{description},*{categories})}"
+                        ></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <img src="https://image.slidesharecdn.com/premhenna-140818000904-phpapp01/95/prem-henna-pvt-ltd-indore-herbal-mehandi-7-638.jpg?cb=1408321492" class="w-100" alt="banner">
+                    <h3 class="card-header">
+                        Popular Category: <span th:text="${categories.size()}"></span>
+                    </h3>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <a class="list-group-item"
+                               th:each="category : ${categories}"
+                               th:href="@{/categories/{id}(id=${category.id})}"
+                            >
+                                <span th:text="${category.name}">
+                                </span>
+                                <small th:text="${category.articles.size()}" class="badge rounded-pill bg-danger">
+                                </small>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End card  -->
+</main>
+</body>
+</html>
